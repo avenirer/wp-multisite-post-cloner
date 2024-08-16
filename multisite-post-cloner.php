@@ -38,6 +38,6 @@ register_activation_hook( __FILE__, 'mpc_activate_multisite_post_cloner' );
  * @return void
  */
 function mpc_run_multisite_post_cloner(): void {
-	$mpc_multisite_post_cloner = new MPC_Multisite_Post_Cloner();
+	MPC_Multisite_Post_Cloner::get_instance();
 }
 add_action( 'plugins_loaded', 'mpc_run_multisite_post_cloner' );

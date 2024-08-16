@@ -14,11 +14,31 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner' ) ) {
 	class MPC_Multisite_Post_Cloner {
 
 		/**
+		 * The instance of the class.
+		 *
+		 * @var ?MPC_Multisite_Post_Cloner
+		 */
+		private static ?MPC_Multisite_Post_Cloner $instance = null;
+
+		/**
 		 * Constructor.
 		 */
-		public function __construct() {
+		private function __construct() {
 			$this->load_dependencies();
 			$this->define_admin_hooks();
+		}
+
+		/**
+		 * Get the instance of the class.
+		 *
+		 * @return MPC_Multisite_Post_Cloner
+		 */
+		public static function get_instance(): MPC_Multisite_Post_Cloner {
+			if ( null === self::$instance ) {
+				self::$instance = new self();
+			}
+
+			return self::$instance;
 		}
 
 		/**
