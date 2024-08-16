@@ -2,14 +2,14 @@
 /**
  * Handles the bulk action for moving posts between sites.
  *
- * @package Multisite_Post_Cloner
+ * @package MPC_Multisite_Post_Cloner
  */
 
-if ( ! class_exists( 'Multisite_Post_Cloner_Actions' ) ) {
+if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Actions' ) ) {
 	/**
 	 * Class responsible for handling the bulk move actions.
 	 */
-	class Multisite_Post_Cloner_Actions {
+	class MPC_Multisite_Post_Cloner_Actions {
 
 		/**
 		 * Handle the bulk action to clone posts to another site.

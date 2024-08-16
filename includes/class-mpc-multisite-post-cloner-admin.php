@@ -2,14 +2,14 @@
 /**
  * Admin-specific functionality for the plugin.
  *
- * @package Multisite_Post_Cloner
+ * @package MPC_Multisite_Post_Cloner
  */
 
-if ( ! class_exists( 'Multisite_Post_Cloner_Admin' ) ) {
+if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 	/**
 	 * Class responsible for handling the admin actions and notices.
 	 */
-	class Multisite_Post_Cloner_Admin {
+	class MPC_Multisite_Post_Cloner_Admin {
 
 		/**
 		 * Add bulk actions for moving posts to another site.
@@ -82,7 +82,7 @@ if ( ! class_exists( 'Multisite_Post_Cloner_Admin' ) ) {
 				<h1><?php esc_html_e( 'Multisite Post Cloner Settings', 'multisite-post-cloner' ); ?></h1>
 				<form method="post" action="options.php">
 					<?php
-					settings_fields( 'multisite_post_cloner_settings_group' );
+					settings_fields( 'mpc_multisite_post_cloner_settings_group' );
 					do_settings_sections( 'multisite-post-cloner-settings' );
 					submit_button();
 					?>
@@ -98,24 +98,24 @@ if ( ! class_exists( 'Multisite_Post_Cloner_Admin' ) ) {
 		 */
 		public function register_settings(): void {
 			register_setting(
-				'multisite_post_cloner_settings_group',
-				'multisite_post_cloner_post_types',
+				'mpc_multisite_post_cloner_settings_group',
+				'mpc_multisite_post_cloner_post_types',
 				array( 'sanitize_callback' => array( $this, 'sanitize_post_types' ) )
 			);
 
 			add_settings_section(
-				'multisite_post_cloner_settings_section',
+				'mpc_multisite_post_cloner_settings_section',
 				__( 'Post Types', 'multisite-post-cloner' ),
 				'__return_null',
 				'multisite-post-cloner-settings'
 			);
 
 			add_settings_field(
-				'multisite_post_cloner_post_types',
+				'mpc_multisite_post_cloner_post_types',
 				__( 'Select Post Types', 'multisite-post-cloner' ),
 				array( $this, 'render_post_types_field' ),
 				'multisite-post-cloner-settings',
-				'multisite_post_cloner_settings_section'
+				'mpc_multisite_post_cloner_settings_section'
 			);
 		}
 
@@ -136,12 +136,12 @@ if ( ! class_exists( 'Multisite_Post_Cloner_Admin' ) ) {
 		 */
 		public function render_post_types_field(): void {
 			$post_types     = get_post_types( array( 'public' => true ), 'objects' );
-			$selected_types = get_option( 'multisite_post_cloner_post_types', array( 'post', 'page' ) );
+			$selected_types = get_option( 'mpc_multisite_post_cloner_post_types', array( 'post', 'page' ) );
 
 			foreach ( $post_types as $post_type ) {
 				?>
 				<label>
-					<input type="checkbox" name="multisite_post_cloner_post_types[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( in_array( $post_type->name, $selected_types, true ) ); ?>>
+					<input type="checkbox" name="mpc_multisite_post_cloner_post_types[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( in_array( $post_type->name, $selected_types, true ) ); ?>>
 					<?php echo esc_html( $post_type->labels->name ); ?>
 				</label><br>
 				<?php
@@ -223,23 +223,6 @@ if ( ! class_exists( 'Multisite_Post_Cloner_Admin' ) ) {
 				esc_html( $blog_name )
 			);
 			echo '</p></div>';
-		}
-
-		/**
-		 * Validate nonce for bulk actions.
-		 *
-		 * @param string $nonce_field The name of the nonce field.
-		 * @param string $nonce_action The action associated with the nonce.
-		 * @return bool True if nonce is valid, false otherwise.
-		 */
-		private function validate_nonce( string $nonce_field, string $nonce_action ): bool {
-			if ( ! isset( $_REQUEST[ $nonce_field ] ) ) {
-				return false;
-			}
-
-			$nonce = sanitize_text_field( wp_unslash( $_REQUEST[ $nonce_field ] ) );
-
-			return wp_verify_nonce( $nonce, $nonce_action );
 		}
 	}
 }
