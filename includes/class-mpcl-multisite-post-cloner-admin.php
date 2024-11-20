@@ -2,14 +2,14 @@
 /**
  * Admin-specific functionality for the plugin.
  *
- * @package MPC_Multisite_Post_Cloner
+ * @package MPCL_Multisite_Post_Cloner
  */
 
-if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
+if ( ! class_exists( 'MPCL_Multisite_Post_Cloner_Admin' ) ) {
 	/**
 	 * Class responsible for handling the admin actions and notices.
 	 */
-	class MPC_Multisite_Post_Cloner_Admin {
+	class MPCL_Multisite_Post_Cloner_Admin {
 
 		/**
 		 * Add bulk actions for moving posts to another site.
@@ -35,19 +35,19 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 		public function bulk_multisite_notices(): void {
 
 			// Check if the nonce is set.
-			if ( ! isset( $_REQUEST['mpc_nonce'] ) ) {
+			if ( ! isset( $_REQUEST['mpcl_nonce'] ) ) {
 				return;
 			}
 
-			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['mpc_nonce'] ) );
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['mpcl_nonce'] ) );
 
-			if ( ! wp_verify_nonce( $nonce, 'mpc_bulk_action_nonce' ) ) {
+			if ( ! wp_verify_nonce( $nonce, 'mpcl_bulk_action_nonce' ) ) {
 				return;
 			}
 
 			// Ensure we have the correct data before proceeding.
-			if ( ! empty( $_REQUEST['mpc_posts_moved'] ) && ! empty( $_REQUEST['mpc_blogid'] ) ) {
-				$posts_moved = (int) $_REQUEST['mpc_posts_moved'];
+			if ( ! empty( $_REQUEST['mpcl_posts_moved'] ) && ! empty( $_REQUEST['mpcl_blogid'] ) ) {
+				$posts_moved = (int) $_REQUEST['mpcl_posts_moved'];
 				$blog        = $this->get_blog_details_from_request();
 
 				if ( $blog && $posts_moved > 0 ) {
@@ -82,7 +82,7 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 				<h1><?php esc_html_e( 'Multisite Post Cloner Settings', 'multisite-post-cloner' ); ?></h1>
 				<form method="post" action="options.php">
 					<?php
-					settings_fields( 'mpc_multisite_post_cloner_settings_group' );
+					settings_fields( 'mpcl_multisite_post_cloner_settings_group' );
 					do_settings_sections( 'multisite-post-cloner-settings' );
 					submit_button();
 					?>
@@ -98,24 +98,24 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 		 */
 		public function register_settings(): void {
 			register_setting(
-				'mpc_multisite_post_cloner_settings_group',
-				'mpc_multisite_post_cloner_post_types',
+				'mpcl_multisite_post_cloner_settings_group',
+				'mpcl_multisite_post_cloner_post_types',
 				array( 'sanitize_callback' => array( $this, 'sanitize_post_types' ) )
 			);
 
 			add_settings_section(
-				'mpc_multisite_post_cloner_settings_section',
+				'mpcl_multisite_post_cloner_settings_section',
 				__( 'Post Types', 'multisite-post-cloner' ),
 				'__return_null',
 				'multisite-post-cloner-settings'
 			);
 
 			add_settings_field(
-				'mpc_multisite_post_cloner_post_types',
+				'mpcl_multisite_post_cloner_post_types',
 				__( 'Select Post Types', 'multisite-post-cloner' ),
 				array( $this, 'render_post_types_field' ),
 				'multisite-post-cloner-settings',
-				'mpc_multisite_post_cloner_settings_section'
+				'mpcl_multisite_post_cloner_settings_section'
 			);
 		}
 
@@ -136,12 +136,12 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 		 */
 		public function render_post_types_field(): void {
 			$post_types     = get_post_types( array( 'public' => true ), 'objects' );
-			$selected_types = get_option( 'mpc_multisite_post_cloner_post_types', array( 'post', 'page' ) );
+			$selected_types = get_option( 'mpcl_multisite_post_cloner_post_types', array( 'post', 'page' ) );
 
 			foreach ( $post_types as $post_type ) {
 				?>
 				<label>
-					<input type="checkbox" name="mpc_multisite_post_cloner_post_types[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( in_array( $post_type->name, $selected_types, true ) ); ?>>
+					<input type="checkbox" name="mpcl_multisite_post_cloner_post_types[]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( in_array( $post_type->name, $selected_types, true ) ); ?>>
 					<?php echo esc_html( $post_type->labels->name ); ?>
 				</label><br>
 				<?php
@@ -184,17 +184,17 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Admin' ) ) {
 		 */
 		private function get_blog_details_from_request(): object|false {
 
-			if ( ! isset( $_REQUEST['mpc_nonce'] ) && ! isset( $_REQUEST['mpc_blogid'] ) ) {
+			if ( ! isset( $_REQUEST['mpcl_nonce'] ) && ! isset( $_REQUEST['mpcl_blogid'] ) ) {
 				return false;
 			}
 
-			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['mpc_nonce'] ) );
+			$nonce = sanitize_text_field( wp_unslash( $_REQUEST['mpcl_nonce'] ) );
 
-			if ( ! wp_verify_nonce( $nonce, 'mpc_bulk_action_nonce' ) ) {
+			if ( ! wp_verify_nonce( $nonce, 'mpcl_bulk_action_nonce' ) ) {
 				return false;
 			}
 
-			$blog_id = sanitize_text_field( wp_unslash( $_REQUEST['mpc_blogid'] ) );
+			$blog_id = sanitize_text_field( wp_unslash( $_REQUEST['mpcl_blogid'] ) );
 
 			$blog_details = get_blog_details( $blog_id );
 			return $blog_details ? $blog_details : false;

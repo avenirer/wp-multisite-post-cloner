@@ -11,4 +11,4 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Delete the option that stores the post types to clone.
-delete_option( 'mpc_multisite_post_cloner_post_types' );
+delete_option( 'mpcl_multisite_post_cloner_post_types' );

@@ -2,14 +2,14 @@
 /**
  * Handles the bulk action for moving posts between sites.
  *
- * @package MPC_Multisite_Post_Cloner
+ * @package MPCL_Multisite_Post_Cloner
  */
 
-if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Actions' ) ) {
+if ( ! class_exists( 'MPCL_Multisite_Post_Cloner_Actions' ) ) {
 	/**
 	 * Class responsible for handling the bulk move actions.
 	 */
-	class MPC_Multisite_Post_Cloner_Actions {
+	class MPCL_Multisite_Post_Cloner_Actions {
 
 		/**
 		 * Handle the bulk action to clone posts to another site.
@@ -22,7 +22,7 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Actions' ) ) {
 		public function bulk_action_multisite_handler( string $redirect, string $doaction, array $object_ids ): string {
 
 			// Remove existing query args.
-			$redirect = remove_query_arg( array( 'mpc_posts_moved', 'mpc_blogid' ), $redirect );
+			$redirect = remove_query_arg( array( 'mpcl_posts_moved', 'mpcl_blogid' ), $redirect );
 
 			if ( str_starts_with( $doaction, 'clone_to_' ) ) {
 				$blog_id = str_replace( 'clone_to_', '', $doaction );
@@ -88,13 +88,13 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner_Actions' ) ) {
 		 * @return string Modified redirect URL.
 		 */
 		private function add_redirect_args( string $redirect, array $object_ids, int $blog_id ): string {
-			$nonce = wp_create_nonce( 'mpc_bulk_action_nonce' );
+			$nonce = wp_create_nonce( 'mpcl_bulk_action_nonce' );
 
 			return add_query_arg(
 				array(
-					'mpc_posts_moved' => count( $object_ids ),
-					'mpc_blogid'      => $blog_id,
-					'mpc_nonce'       => $nonce,
+					'mpcl_posts_moved' => count( $object_ids ),
+					'mpcl_blogid'      => $blog_id,
+					'mpcl_nonce'       => $nonce,
 				),
 				$redirect
 			);

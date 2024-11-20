@@ -3,22 +3,22 @@
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  *
- * @package MPC_Multisite_Post_Cloner
+ * @package MPCL_Multisite_Post_Cloner
  */
 
-if ( ! class_exists( 'MPC_Multisite_Post_Cloner' ) ) {
+if ( ! class_exists( 'MPCL_Multisite_Post_Cloner' ) ) {
 
 	/**
 	 * The main class for the Multisite Post Cloner plugin.
 	 */
-	class MPC_Multisite_Post_Cloner {
+	class MPCL_Multisite_Post_Cloner {
 
 		/**
 		 * The instance of the class.
 		 *
-		 * @var ?MPC_Multisite_Post_Cloner
+		 * @var ?MPCL_Multisite_Post_Cloner
 		 */
-		private static ?MPC_Multisite_Post_Cloner $instance = null;
+		private static ?MPCL_Multisite_Post_Cloner $instance = null;
 
 		/**
 		 * Constructor.
@@ -31,9 +31,9 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner' ) ) {
 		/**
 		 * Get the instance of the class.
 		 *
-		 * @return MPC_Multisite_Post_Cloner
+		 * @return MPCL_Multisite_Post_Cloner
 		 */
-		public static function get_instance(): MPC_Multisite_Post_Cloner {
+		public static function get_instance(): MPCL_Multisite_Post_Cloner {
 			if ( null === self::$instance ) {
 				self::$instance = new self();
 			}
@@ -47,8 +47,8 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner' ) ) {
 		 * @return void
 		 */
 		private function load_dependencies(): void {
-			require_once plugin_dir_path( __FILE__ ) . 'class-mpc-multisite-post-cloner-admin.php';
-			require_once plugin_dir_path( __FILE__ ) . 'class-mpc-multisite-post-cloner-actions.php';
+			require_once plugin_dir_path( __FILE__ ) . 'class-mpcl-multisite-post-cloner-admin.php';
+			require_once plugin_dir_path( __FILE__ ) . 'class-mpcl-multisite-post-cloner-actions.php';
 		}
 
 		/**
@@ -57,15 +57,15 @@ if ( ! class_exists( 'MPC_Multisite_Post_Cloner' ) ) {
 		 * @return void
 		 */
 		private function define_admin_hooks(): void {
-			$plugin_admin = new MPC_Multisite_Post_Cloner_Admin();
+			$plugin_admin = new MPCL_Multisite_Post_Cloner_Admin();
 			add_action( 'admin_menu', array( $plugin_admin, 'add_settings_page' ) );
 			add_action( 'admin_init', array( $plugin_admin, 'register_settings' ) );
 
-			$selected_types = get_option( 'mpc_multisite_post_cloner_post_types', array( 'post', 'page' ) );
+			$selected_types = get_option( 'mpcl_multisite_post_cloner_post_types', array( 'post', 'page' ) );
 
 			add_action( 'admin_notices', array( $plugin_admin, 'bulk_multisite_notices' ) );
 
-			$plugin_actions = new MPC_Multisite_Post_Cloner_Actions();
+			$plugin_actions = new MPCL_Multisite_Post_Cloner_Actions();
 
 			foreach ( $selected_types as $post_type ) {
 				add_filter( "bulk_actions-edit-{$post_type}", array( $plugin_admin, 'bulk_multisite_actions' ) );

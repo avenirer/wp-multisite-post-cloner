@@ -9,7 +9,7 @@
  * License:  GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @package MPC_Multisite_Post_Cloner
+ * @package MPCL_Multisite_Post_Cloner
  */
 
 // If this file is called directly, abort.
@@ -17,30 +17,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-mpc-multisite-post-cloner.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-mpcl-multisite-post-cloner.php';
 
 /**
  * Activate the plugin.
  *
  * @return void
  */
-function mpc_activate_multisite_post_cloner(): void {
-	$mpc_default_types = array( 'post', 'page' );
-	if ( false === get_option( 'mpc_multisite_post_cloner_post_types' ) ) {
-		update_option( 'mpc_multisite_post_cloner_post_types', $mpc_default_types );
+function mpcl_activate_multisite_post_cloner(): void {
+	$mpcl_default_types = array( 'post', 'page' );
+	if ( false === get_option( 'mpcl_multisite_post_cloner_post_types' ) ) {
+		update_option( 'mpcl_multisite_post_cloner_post_types', $mpcl_default_types );
 	}
 }
-register_activation_hook( __FILE__, 'mpc_activate_multisite_post_cloner' );
+register_activation_hook( __FILE__, 'mpcl_activate_multisite_post_cloner' );
 
 /**
  * Initialize the plugin.
  *
  * @return void
  */
-function mpc_run_multisite_post_cloner(): void {
+function mpcl_run_multisite_post_cloner(): void {
 	// Only run the plugin in the admin.
 	if ( is_admin() ) {
-		MPC_Multisite_Post_Cloner::get_instance();
+		MPCL_Multisite_Post_Cloner::get_instance();
 	}
 }
-add_action( 'plugins_loaded', 'mpc_run_multisite_post_cloner' );
+add_action( 'plugins_loaded', 'mpcl_run_multisite_post_cloner' );
