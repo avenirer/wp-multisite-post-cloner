@@ -1,4 +1,4 @@
-# Multisite Post Cloner
+# Multisite Post Cloner (with support for Beaver Builder pages)
 
 **Contributors:** amurin, avenirer
 **Tags:** multisite, clone, posts, pages, network, beaver builder  
