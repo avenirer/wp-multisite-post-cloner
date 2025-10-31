@@ -9,11 +9,11 @@
 **License:** GPLv2 or later  
 **License URI:** [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
 
-Multisite Post Cloner allows you to clone posts and pages across sites in your WordPress multisite network, including Beaver Builder pages.
+Multisite Post Cloner with Beaver Builder support allows you to clone posts and pages across sites in your WordPress multisite network with particular attention paid to Beaver Builder pages. This project started from the wp-multisite-post-cloner project.
 
 ## Description
 
-Multisite Post Cloner is a simple yet powerful plugin that enables network administrators to clone posts and pages from one site to another within a WordPress multisite network—including advanced layouts created with Beaver Builder. The plugin provides an intuitive interface for selecting content, including Beaver Builder pages, and seamlessly copying it to any site in the network.
+Multisite Post Cloner with Beaver Builder support is a simple yet powerful plugin that enables network administrators to clone posts and pages from one site to another within a WordPress multisite network—including advanced layouts created with Beaver Builder. The plugin provides an intuitive interface for selecting content, including Beaver Builder pages, and seamlessly copying it to any site in the network.
 
 ### Features:
 * Clone posts and pages (including Beaver Builder pages) to any site in your multisite network.
@@ -51,7 +51,7 @@ Currently, the plugin allows cloning to one target site at a time. You can repea
 
 ## Changelog
 
-### 1.0.0
+### 1.0.1
 * Initial release.
 * Added support for cloning Beaver Builder pages.
 
@@ -62,7 +62,7 @@ Currently, the plugin allows cloning to one target site at a time. You can repea
 
 ## Support
 
-For support, please contact me directly at amurin3d@gmail.com.
+For support, please contact me directly at avenir.ro@gmail.com.
 
 ## License
 
